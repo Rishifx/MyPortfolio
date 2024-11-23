@@ -3,6 +3,14 @@ import { Calendar, Award, Briefcase } from 'lucide-react';
 
 const experiences = [
   {
+    date: '2024',
+    title: 'AURORA',
+    organization: 'Authorized User Recognition for Operational Residential Automation',
+    description: 'IoT project designed to enhance smart home automation using voice and face recognition. The system authenticates users to securely control home lighting by responding to voice commands like "lights on" or "off.',
+    icon: Award,
+    color: 'from-cyan-400 to-blue-500'
+  },
+  {
     date: '2023',
     title: 'Software Engineering Certification',
     organization: 'IBM',
@@ -26,6 +34,7 @@ const experiences = [
     icon: Briefcase,
     color: 'from-green-400 to-emerald-500'
   },
+  
 ];
 
 export default function Experience() {

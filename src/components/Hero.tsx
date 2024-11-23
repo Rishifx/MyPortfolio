@@ -64,6 +64,8 @@ export default function Hero() {
             </a>
             <a
               href="/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               className="px-8 py-3 rounded-full bg-white/10 backdrop-blur-sm text-white font-semibold flex items-center gap-2 hover:bg-white/20 transition-all duration-300"
             >
               <FileText size={20} />

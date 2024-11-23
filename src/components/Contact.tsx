@@ -5,48 +5,43 @@ export default function Contact() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    message: ''
+    message: '',
   });
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState(''); // Feedback to the user
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Your Web3Forms secret key
-    const secretKey = '55b48334-75e1-4c97-9d29-f7c5324f7538';
-
-    // Prepare the form data
-    const data = {
-      name: formData.name,
-      email: formData.email,
-      message: formData.message,
-    };
+    setLoading(true);
+    setResult(''); // Reset result message
 
     try {
-      // Web3Forms API call
+      // Create FormData for the Web3Forms API
+      const formPayload = new FormData();
+      formPayload.append('access_key', '55b48334-75e1-4c97-9d29-f7c5324f7538'); // Replace with your actual key
+      formPayload.append('name', formData.name);
+      formPayload.append('email', formData.email);
+      formPayload.append('message', formData.message);
+
       const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          secret: secretKey,
-          ...data
-        }),
+        body: formPayload, // Web3Forms expects FormData directly
       });
 
       const result = await response.json();
-      console.log(result);  // Log the response for debugging
+      console.log('Web3Forms Response:', result);
 
-      // Handle success or failure
       if (result.success) {
-        alert('Message sent successfully!');
-        setFormData({ name: '', email: '', message: '' }); // Clear form
+        setResult('Message sent successfully!');
+        setFormData({ name: '', email: '', message: '' }); // Clear the form
       } else {
-        alert(`Failed to send the message: ${result.message || 'Unknown error'}`);
+        setResult(result.message || 'Failed to send the message. Try again.');
       }
     } catch (error) {
-      console.error('Error sending message:', error);
-      alert('Error sending the message. Please try again.');
+      console.error('Error:', error);
+      setResult('An error occurred while sending your message. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -116,11 +111,15 @@ export default function Contact() {
             </div>
             <button
               type="submit"
-              className="w-full px-8 py-4 rounded-lg bg-gradient-to-r from-green-400 to-emerald-500 text-white font-semibold flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-green-500/20 transition-all duration-300"
+              disabled={loading}
+              className={`w-full px-8 py-4 rounded-lg bg-gradient-to-r from-green-400 to-emerald-500 text-white font-semibold flex items-center justify-center gap-2 ${
+                loading ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-lg hover:shadow-green-500/20'
+              } transition-all duration-300`}
             >
-              <Send className="w-5 h-5" />
-              Send Message
+              {loading ? 'Sending...' : <><Send className="w-5 h-5" />Send Message</>}
             </button>
+            {/* Display Result */}
+            {result && <p className="text-center text-white mt-4">{result}</p>}
           </form>
         </div>
       </div>

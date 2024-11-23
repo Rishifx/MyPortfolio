@@ -65,10 +65,10 @@ export default function Contact() {
                     rishi.pathak193@gmail.com
                   </a>
                 </div>
-                <div className="flex items-center gap-4">
+                {/* <div className="flex items-center gap-4">
                   <Phone className="w-6 h-6 text-green-400" />
                   <span className="text-gray-300">+91 9340702348</span>
-                </div>
+                </div> */}
                 <div className="flex items-center gap-4">
                   <MapPin className="w-6 h-6 text-green-400" />
                   <span className="text-gray-300">Rewa Madhya Pradesh, India</span>
